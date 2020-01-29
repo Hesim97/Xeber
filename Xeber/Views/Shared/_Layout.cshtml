@@ -1,0 +1,132 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <title>@Html.Raw(ViewBag.Title)</title>
+
+    <style>
+
+
+
+
+        ul {
+            position: fixed
+        }
+
+        .myUl {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            background-color: #34495e;
+            z-index: 1;
+            width: 100%;
+            position: fixed
+        }
+
+        .navMenu {
+            display: inline-block;
+        }
+
+        .navbar-brand {
+            display: block;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            padding: 15px 20px;
+        }
+
+        /*.navMenu .navbar-brand {
+                background-color: #f39c12;
+            }*/
+
+        .active,
+        .navMenu:not(:last-child):hover {
+            background-color: #808080
+        }
+
+        .myUl .navMenu .myUl {
+            background-color: #2c3e50;
+            display: none;
+            position: absolute;
+            width: 100px
+        }
+
+        /*.myUl .navMenu:hover .myUl {
+            display: block;
+        }*/
+
+        .navMenu .myUl .navMenu {
+            display: block;
+        }
+
+        footer {
+            top: 95%;
+            min-height: 5%;
+            width: 100%;
+            color: black;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul class="myUl" id="myull">
+
+
+            <li class="navMenu "><a asp-controller="News" asp-action="Index" class=" navbar-brand">Ana Sehife</a></li>
+
+            <li class="navMenu"><a asp-controller="News" asp-action="Idman" class="navbar-brand">Idman</a></li>
+
+            <li class="navMenu"><a asp-controller="News" asp-action="Iqtisadiyyat" class="navbar-brand">Iqtisadiyyat</a></li>
+
+            <li class="navMenu"><a asp-controller="News" asp-action="Auto" class=" navbar-brand">Auto</a></li>
+
+            <li class="navMenu"><a asp-controller="News" asp-action="SouBiznes" class="navbar-brand">Sou-Biznes</a></li>
+
+            <li class="navMenu" style="margin-right:0"> @Html.Partial("_Search")</li>
+            <li><a><i class="fab fa-facebook-square my-2"></i></a></li>
+        </ul>
+    </nav>
+
+    <div style="height:auto;margin-left:300px" class="col-md-8">
+        @RenderBody()
+    </div>
+
+    <footer>
+        <p>&copy; 2020 --Xeberler</p>
+    </footer>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+ 
+    <script type="text/javascript">
+       (function() {
+    var current = location.pathname;
+    $('#myull li a').each(function() {
+        var $this = $(this); 
+
+        // we check comparison between current page and attribute redirection.
+        if ($this.attr('href') === current) {
+            $this.addClass('active');
+        }
+    });
+})();
+        </script>
+    @RenderSection("scripts", false)
+</body>
+</html>

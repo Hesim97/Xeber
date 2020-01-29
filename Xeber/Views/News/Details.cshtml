@@ -1,0 +1,25 @@
+﻿@model News
+
+@{
+    ViewData["Title"] = "Xəbər || Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div style="display:inline-block">
+    @Html.Partial("_BreadCrumbs")
+
+    <img src="~/img/@Model.NewsImg" width="450" height="350" asp-append-version="true" alt="...">
+    <p style="width:250px;font-size:20px;font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif"> @Html.DisplayFor(modelItem => Model.NewsTitle)</p>
+    <p style="width:250px"> @Html.Raw(Model.NewsContent)</p>
+    <p><b> @Html.DisplayFor(modelItem => Model.CreateDate)</b> tarixinde elave edildi</p>
+
+
+
+</div>
+ 
+<div>
+    @*<a asp-action="Edit" asp-route-id="@Model.NewsId">Edit</a> |*@
+    <button class="btn btn-primary"> <a asp-action="Index" style="color:white;font-weight:bold">geri</a></button>
+</div>

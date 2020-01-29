@@ -1,0 +1,76 @@
+﻿@model Xeber.Entity.News
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Silmek</h2>
+
+<h3>Bu xeberi silmek istediyinizden eminsiniz?</h3>
+<div>
+    <h4>News</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NewsTitle)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NewsTitle)
+        </dd>
+        <dt>
+            @Html.Raw(Model.NewsContent)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NewsContent)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CreateDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CreateDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdateDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UpdateDate)
+        </dd>
+        <dt>
+            @Html.DisplayFor(model => model.NewsImg)
+        </dt>
+        <dd>
+            <img src=" @Model.NewsImg" width="300" height="300" asp-append-version="true" />
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ViewCount)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ViewCount)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IsActiv)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IsActiv)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Deleted)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Deleted)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Category)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Category.Id)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="NewsId" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> 
+        <a class="btn btn-primary" asp-action="Index">Geri</a>
+    </form>
+</div>

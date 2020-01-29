@@ -1,0 +1,104 @@
+﻿@using X.PagedList.Mvc.Core
+@using X.PagedList
+@model IEnumerable<Xeber.Entity.News>
+
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<h2>Xeber List</h2>
+<br />
+<div style="margin-left:230px">
+    @Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page }),
+    new X.PagedList.Mvc.Common.PagedListRenderOptions
+    {
+    //DisplayItemSliceAndTotal = true,
+    ContainerDivClasses = new[] { "navigation" },
+    LiElementClasses = new[] { "page-item" },
+    PageClasses = new[] { "page-link" }
+
+    })
+</div>
+<p>
+    <a class="btn btn-primary" asp-action="Create">Yeni Xeber</a>
+</p>
+
+<div class="container">
+    <table class="table table-striped">
+        <thead class="table table-dark">
+            <tr>
+                <th>
+                    Basliq
+                </th>
+                <th>
+                    Kategoriya
+                </th>
+                <th>
+                    Mezmun
+                </th>
+                <th>
+                    Yaradilma Tarix
+                </th>
+                <th>
+                    Yenilenme
+                </th>
+                <th>
+                    Sekili
+                </th>
+                <th>
+                    Baxis sayi
+                </th>
+                <th>
+                    Aktiv
+                </th>
+                <th>
+                    Silindi
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NewsTitle)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Category.CatName)
+                    </td>
+                    <td>
+                        <div style="width:230px;height:350px;overflow:hidden">
+                            @Html.Raw(item.NewsContent)
+                        </div>
+                    </td>
+                    <td>
+                        <time datetime="@item.CreateDate.ToString("yyyy-MM-dd")">@item.CreateDate.ToString("dd MMMM yyyy")</time>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UpdateDate)
+                    </td>
+                    <td>
+                        <img src="~/img/@item.NewsImg" width="200" height="200" asp-append-version="true" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ViewCount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsActiv)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Deleted)
+                    </td>
+                    <td>
+                        <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.NewsId"><i class="fas fa-edit m-2"></i></a>
+                        <a class="btn btn-success" asp-action="Details" asp-route-id="@item.NewsId"><i class="fas fa-info-circle m-2"></i></a>
+                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.NewsId"><i class="fas fa-trash m-2"></i></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
