@@ -16,7 +16,7 @@ namespace Xeber.Controllers
 {
     public class NewsController : Controller
     {
-       
+       //Test GitHub
         private INewsRepository repository;
         private NewsContext context;
         public NewsController(INewsRepository _repository, NewsContext context)
