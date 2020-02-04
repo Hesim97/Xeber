@@ -1,1 +1,60 @@
 ﻿
+
+.myUl {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background-color: #34495e;
+    z-index: 1;
+    width: 100%;
+    position: fixed;
+}
+
+.navMenu {
+    display: inline-block;
+}
+
+.navbar-brand {
+    display: block;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    padding: 15px 20px;
+}
+/*.navMenu .navbar-brand {
+                background-color: #f39c12;
+            }*/
+.active,
+.navMenu:not(:last-child):hover {
+    background-color: #808080
+}
+
+.myUl .navMenu .myUl {
+    background-color: #2c3e50;
+    display: none;
+    position: absolute;
+    width: 100px
+}
+/*.myUl .navMenu:hover .myUl {
+            display: block;
+        }*/
+.navMenu .myUl .navMenu {
+    display: block;
+}
+
+footer {
+    top: 95%;
+    min-height: 5%;
+    width: 100%;
+    color: black;
+    text-align: center;
+}
+
+footer {
+    min-height: 5%;
+    width: 100%;
+    color: black;
+    text-align: center;
+    bottom: 0;
+    position: fixed;
+}

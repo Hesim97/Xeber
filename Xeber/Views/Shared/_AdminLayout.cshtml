@@ -16,8 +16,8 @@
 
     <title>Admin</title>
     <style>
-        ul {
-            position: fixed
+        .pagination {
+           z-index:1;
         }
 
         #myUl {
@@ -28,7 +28,6 @@
             background-color: #34495e;
             z-index: 1;
             width: 100%;
-            position: fixed
         }
 
         li {
@@ -79,13 +78,13 @@
             <li><a asp-controller="Categories" asp-action="Index" class=" navbar-brand">Category</a></li>
 
             <li><a asp-controller="User" asp-action="Index" class=" navbar-brand">User</a></li>
-            <li> @Html.Partial("_Search")</li>
+            @*<li> @Html.Partial("_Search")</li>*@
 
         </ul>
     </nav>
-
-    @RenderBody()
-
+   
+        @RenderBody()
+    
 
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
             integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>

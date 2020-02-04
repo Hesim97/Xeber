@@ -5,68 +5,51 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>Silmek</h2>
 
-<h3>Bu xeberi silmek istediyinizden eminsiniz?</h3>
+    <div class="alert-danger">
+        <h3>Bu xeberi silmek istediyinizden eminsiniz?</h3>
+    </div>
 <div>
-    <h4>News</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.NewsTitle)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.NewsTitle)
-        </dd>
-        <dt>
-            @Html.Raw(Model.NewsContent)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.NewsContent)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.CreateDate)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.CreateDate)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.UpdateDate)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.UpdateDate)
-        </dd>
-        <dt>
-            @Html.DisplayFor(model => model.NewsImg)
-        </dt>
-        <dd>
-            <img src=" @Model.NewsImg" width="300" height="300" asp-append-version="true" />
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.ViewCount)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.ViewCount)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.IsActiv)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.IsActiv)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Deleted)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Deleted)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Category)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Category.Id)
-        </dd>
-    </dl>
+    
+    <div class="container">
+        <dl class="dl-horizontal">
+
+            <dt style="font-weight:bold;background-color:yellow;width:160px">
+                Başlıq
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.NewsTitle)
+            </dd>
+
+            <dt style="font-weight:bold;background-color:yellow;width:160px">
+                Məzmun
+            </dt>
+            <dd style="max-width:350px; height:auto">
+                @Html.Raw(Model.NewsContent)
+            </dd>
+
+            <dt style="font-weight:bold;background-color:yellow;width:160px">
+                Yaradilma Tarixi
+            </dt>
+            <dd>
+                <time datetime="@Model.CreateDate.ToString("yyyy-MM-dd")">@Model.CreateDate.ToString("dd MMMM yyyy") </time>
+            </dd>
+
+            <dt style="font-weight: bold; background-color: yellow ;width:160px">
+                Şəkili
+            </dt>
+            <dd>
+                <img src="~/img/@Model.NewsImg" asp-append-version="true" width="400" height="400" />
+            </dd>
+
+            <dt style="font-weight:bold;background-color:yellow;width:160px ">
+                Kategoriyasi
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Category.CatName)
+            </dd>
+        </dl>
+    </div>
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="NewsId" />

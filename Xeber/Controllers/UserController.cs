@@ -40,7 +40,7 @@ namespace Xeber.Controllers
                 var result = await userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index", "News");
                 }
                 else
                 {

@@ -1,8 +1,12 @@
-﻿
-<section aria-label="breadcrumb" style="position:fixed;width:25%">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a asp-controller="" asp-action="">Home</a></li>
-        <li class="breadcrumb-item"><a asp-controller="" asp-action=""></a></li>
-        <li class="breadcrumb-item active" aria-current="page">Details</li>
-    </ol>
-</section>
+﻿@*<ul class="stepNav threeWide"  style="width:25%">
+        <li class="selected"><a asp-action="Index"><i class="fas fa-home my-1"></i></a></li>
+        <li class="selected"><a asp-action="Index" asp-route-id="@ViewBag.CatId">@ViewBag.category</a></li>
+        <li><a title="">Details</a></li>
+    </ul>*@
+
+    
+    <div style="margin-left:0" class="btn-group btn-breadcrumb w-50 mb-2">
+        <a asp-action="Index" class="btn btn-success"><i class="fas fa-home my-1"></i></a>
+        <a asp-action="Index" asp-route-id="@ViewBag.CatId" class="btn btn-primary">@ViewBag.category</a>
+        <a style="cursor:none" class="btn btn-warning">Details</a>
+    </div>

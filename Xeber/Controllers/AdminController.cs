@@ -101,6 +101,7 @@ namespace Xeber.Controllers
             }
 
             var news = await _context.News.FindAsync(id);
+           
             if (news == null)
             {
                 return NotFound();
@@ -115,7 +116,7 @@ namespace Xeber.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id,
-            [Bind("NewsId,NewsTitle,CategoryId,NewsContent,CreateDate,UpdateDate,NewsImg,ViewCount,IsActiv,Deleted")] News news,IFormFile file
+            [Bind("NewsId,NewsTitle,CategoryId,NewsContent,CreateDate,UpdateDate,NewsImg,ViewCount,IsActiv,Deleted,")] News news,IFormFile file
             )
         {
             if (id != news.NewsId)
@@ -184,6 +185,7 @@ namespace Xeber.Controllers
             var news = await _context.News.FindAsync(id);
             _context.News.Remove(news);
             await _context.SaveChangesAsync();
+            TempData["message"] = $"{news.NewsId} Id-li xeber silindi.";
             return RedirectToAction(nameof(Index));
         }
 

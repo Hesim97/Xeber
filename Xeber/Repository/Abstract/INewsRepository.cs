@@ -8,7 +8,11 @@ namespace Xeber.Repository.Abstract
 {
     public interface INewsRepository
     {
-        IQueryable<News> News { get; }
-
+        News GetById(int newsId);
+        IQueryable<News> GetAll();
+        void AddNews(News entity);
+        void UpdateNews(News entity);
+        void DeleteNews(int newsId);
+        void SearchNews(string q);
     }
 }

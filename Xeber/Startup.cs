@@ -33,11 +33,12 @@ namespace Xeber
             services.AddDbContext<NewsContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddTransient<INewsRepository, efNewsRepository>();
-
+            services.AddTransient<ICategoryRepository, efCategoryRepository>();
             services.AddDbContext<ApplicationIdentityDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddIdentity<ApplicationUser, IdentityRole>(options=> {
-                options.Password.RequiredLength = 7;
+                options.Password.RequiredLength = 3;
                 options.Password.RequireDigit = false;
                 options.Password.RequireLowercase = false;
                 options.Password.RequireUppercase = false;

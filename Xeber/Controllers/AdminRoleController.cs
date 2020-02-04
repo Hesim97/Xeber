@@ -43,5 +43,29 @@ namespace Xeber.Controllers
             }
             return View(name);
         }
+        [HttpPost]
+        public async Task<IActionResult> Delete(string id)
+        {
+            var role = await roleManager.FindByIdAsync(id);
+            if (role != null)
+            {
+                var result = await roleManager.DeleteAsync(role);
+
+                if (result.Succeeded)
+                {
+                    TempData["message"] = $"{role.Name} has been deleted.";
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+
+                }
+            }
+            return RedirectToAction("Index");
+        }
     }
 }

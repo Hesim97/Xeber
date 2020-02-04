@@ -1,37 +1,65 @@
 ﻿@model IEnumerable<News>
+@using X.PagedList.Mvc.Core
+@using X.PagedList
 
 @{
     ViewData["Title"] = "Xəbər || Ana Səhifə";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-<h2>Butun Xeberler</h2>
-@foreach (var item in Model)
+@if (Model.Count() == 0)
 {
-
-
-
-<div class="card" style="margin-bottom:8px;display:inline-block">
-    <a asp-action="Details" asp-route-id="@item.NewsId" style=" color:black">
-        <img src="~/img/@item.NewsImg" width="250" height="250" asp-append-version="true" alt="...">
-        <div class="card-body" style="height: 200px; overflow: hidden; width: 250px;">
-            <h5 class="card-title">@Html.DisplayFor(modelItem => item.NewsTitle)</h5>
-        </div>
-    </a>
-    <img src="~/lib/Icons/eye.svg" asp-append-version="true" width="25" height="20" />
-    @item.ViewCount
-    <div class="card-footer">
-        <time datetime="@item.CreateDate.ToString("yyyy-MM-dd")">@item.CreateDate.ToString("dd MMMM yyyy")</time>
+    <div class="bg-dark text-white p-1 m-1">
+        <h2>Bu kategoriyaya aid xəbər yoxdur</h2>
     </div>
+
+}
+
+<div class=" justify-content-center">
+    @if (ViewBag.sl is null)
+    {
+        <div class="mb-3">
+            @Html.Partial("_Slider", Model)
+        </div>
+    }
+    @foreach (var item in Model)
+    {
+        <div class="card" style="margin-bottom:8px;display:inline-block">
+            <a asp-action="Details" asp-route-id="@item.NewsId" style=" color:black">
+                <img src="~/img/@item.NewsImg" width="250" height="250" asp-append-version="true" alt="...">
+                <div class="card-body" style="height: 200px; overflow: hidden; width: 250px;">
+                    <h5 class="card-title">@Html.DisplayFor(modelItem => item.NewsTitle)</h5>
+                </div>
+            </a>
+            <img src="~/lib/Icons/eye.svg" asp-append-version="true" width="25" height="20" />
+            @item.ViewCount
+            <div class="card-footer">
+                <time datetime="@item.CreateDate.ToString("yyyy-MM-dd")">@item.CreateDate.ToString("dd MMMM yyyy")</time>
+            </div>
+        </div>
+    }
+    @*@if (Model.Count() > 0) {
+            <div class="pagination justify-content-center">
+                @Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page }),
+               new X.PagedList.Mvc.Common.PagedListRenderOptions
+               {
+                   //DisplayItemSliceAndTotal = true,
+                   ContainerDivClasses = new[] { "navigation" },
+                   LiElementClasses = new[] { "page-item" },
+                   PageClasses = new[] { "page-link" }
+
+               })
+            </div>
+        }*@
+
 </div>
 
 
 
-}
-<script>
 
-</script>
+
+
+
 
 
 
