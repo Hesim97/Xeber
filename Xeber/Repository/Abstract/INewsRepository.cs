@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ namespace Xeber.Repository.Abstract
     {
         News GetById(int newsId);
         IQueryable<News> GetAll();
+        IQueryable<News> GetAllAdmin();
         void AddNews(News entity);
         void UpdateNews(News entity);
         void DeleteNews(int newsId);

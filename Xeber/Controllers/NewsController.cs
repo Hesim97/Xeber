@@ -32,22 +32,22 @@ namespace Xeber.Controllers
         {
 
             var query = repository.GetAll();
-
             if (id != null)
             {
-                query = query.Where(i => i.CategoryId == id);              
+                query = query.Where(i => i.CategoryId == id);
+               
             }
+          
             if (!string.IsNullOrEmpty(q))
             {
                 query = repository.GetAll().Where(i => EF.Functions.Like(i.NewsContent, "%" + q + "%") || EF.Functions.Like(i.NewsTitle, "%" + q + "%")
                    && (i.IsActiv == true && i.Deleted == false));
-
-
             }
+            ViewBag.q = q;
+            ViewBag.sl = id;
             //var pageNumber = page ?? 1;
             //int pageSize = 6;
-            //var query1 = query.ToList().ToPagedList(pageNumber, pageSize);
-            //ViewBag.sl = id;
+            //var query1 = query.ToList().ToPagedList(pageNumber, pageSize);            
             //ViewBag.pg = pageSize;
             return View(query);
           

@@ -14,41 +14,42 @@
 <hr />
 <div class="container">
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-8">
             <form asp-action="Create" method="post" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="NewsTitle" class="control-label"></label>
-                    <input asp-for="NewsTitle" class="form-control" />
+                    <input asp-for="NewsTitle" class="form-control" required />
                     <span asp-validation-for="NewsTitle" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="CategoryId" class="control-label"></label>
-                    <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
+                    <label class="control-label">Category</label>
+                    <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryId" required></select>
                 </div>
                 <div class="form-group">
                     <label asp-for="NewsContent" class="control-label"></label>
-                    <textarea asp-for="NewsContent" class="form-control"></textarea>
+                    <textarea asp-for="NewsContent" class="form-control" required></textarea>
                     <span asp-validation-for="NewsContent" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label>Image</label>
-                    <input type="file" name="file" id="file" class="form-control" />
+                    <input type="file" name="file" id="file" class="form-control" required />
                 </div>
                 @*<div class="form-group">
             <label asp-for="NewsImg" class="control-label"></label>
             <input asp-for="NewsImg" class="form-control" />
             <span asp-validation-for="NewsImg" class="text-danger"></span>
         </div>*@
-                <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-success" />
-                </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-success" />
+                <a class="btn btn-primary" asp-action="Index">Geri</a>
+            </div>
             </form>
         </div>
     </div>
 </div>
 
 <div>
-    <a class="btn btn-primary" asp-action="Index">Geri</a>
+   
 </div>
 

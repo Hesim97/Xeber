@@ -12,19 +12,21 @@ using Microsoft.EntityFrameworkCore;
 using X.PagedList;
 using Xeber.Entity;
 using Xeber.Models;
+using Xeber.Repository.Abstract;
 using Xeber.Repository.Concrete.EntityFramework;
 
 namespace Xeber.Controllers
 {
-  
+
     public class AdminController : Controller
     {
-        private readonly NewsContext _context;
+        private INewsRepository newsRepository;
+        private ICategoryRepository categoryRepository;
 
-        public AdminController(NewsContext context)
+        public AdminController(INewsRepository _repository, ICategoryRepository _categoryRepository)
         {
-            _context = context;
-            
+            newsRepository = _repository;
+            categoryRepository = _categoryRepository;
         }
         // GET: Admin
         [Authorize]
@@ -32,46 +34,20 @@ namespace Xeber.Controllers
         {
             var pageNumber = page ?? 1;
             int pageSize = 3;
-            var query = _context.News.ToList().ToPagedList(pageNumber, pageSize);
+            var query = newsRepository.GetAllAdmin().ToList().ToPagedList(pageNumber, pageSize);
             //var newsContext = _context.News.Include(n => n.Category).ToPagedList(1,5);
             return View(query);
         }
-
-        // GET: Admin/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var news = await _context.News
-                .Include(n => n.Category)
-                .FirstOrDefaultAsync(m => m.NewsId == id);
-            if (news == null)
-            {
-                return NotFound();
-            }
-
-            return View(news);
-        }
-
-        // GET: Admin/Create
+        [HttpGet]
         public IActionResult Create()
         {
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "CatName");
+            ViewData["CategoryId"] = new SelectList(categoryRepository.GetAll(), "Id", "CatName");
             return View();
         }
-
-        // POST: Admin/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(
-            [Bind("NewsId,NewsTitle,CategoryId,NewsContent,CreateDate,UpdateDate,NewsImg,ViewCount,IsActiv,Deleted")] 
-        News news,IFormFile file)
+        public async Task <IActionResult> Create(News entity,IFormFile file)
         {
+            
             if (ModelState.IsValid)
             {
                 var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\img", file.FileName);
@@ -79,119 +55,71 @@ namespace Xeber.Controllers
                 {
                     await file.CopyToAsync(stream);
                 }
-                news.ViewCount = 0;
-                news.IsActiv = true;
-                news.CreateDate = DateTime.Now.ToLocalTime();
-                news.NewsImg = file.FileName;
+                entity.IsActiv = true;
+                entity.ViewCount = 0;
+                entity.NewsImg = file.FileName;
 
-                _context.Add(news);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "CatName", news.CategoryId);
-            return View(news);
+                newsRepository.AddNews(entity);
+                return RedirectToAction("Index");
+            } 
+          
+            return View(entity);
         }
 
-        // GET: Admin/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        [HttpGet]
+        public IActionResult Edit(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var news = await _context.News.FindAsync(id);
-           
-            if (news == null)
-            {
-                return NotFound();
-            }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "CatName", news.CategoryId);
-            return View(news);
+            ViewData["CategoryId"] = new SelectList(categoryRepository.GetAll(), "Id", "CatName");
+            return View(newsRepository.GetById(id));
         }
 
-        // POST: Admin/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id,
-            [Bind("NewsId,NewsTitle,CategoryId,NewsContent,CreateDate,UpdateDate,NewsImg,ViewCount,IsActiv,Deleted,")] News news,IFormFile file
-            )
+        public async Task <IActionResult> Edit(News entity, IFormFile file)
         {
-            if (id != news.NewsId)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
-               
-                try
+                if (file==null)
                 {
-                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\img", file.FileName);
+                    entity.NewsImg = entity.NewsImg;
+                }
+ 
+                   var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\img", file.FileName);
                     using (var stream = new FileStream(path, FileMode.Create))
                     {
-                        await file.CopyToAsync(stream);
+                    await file.CopyToAsync(stream);
                     }
-                    news.UpdateDate = DateTime.Now.ToLocalTime();
-                    news.NewsImg = file.FileName;
 
-
-                    _context.Update(news);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!NewsExists(news.NewsId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                //entity.IsActiv = true;
+                entity.NewsImg = file.FileName;
+                //entity.UpdateDate = DateTime.Now;
+                newsRepository.UpdateNews(entity);
+                return RedirectToAction("Index");
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "CatName", news.CategoryId);
-            return View(news);
+            ViewData["CategoryId"] = new SelectList(categoryRepository.GetAll(), "Id", "CatName");
+            return View(entity);
         }
-
-        // GET: Admin/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        [HttpGet]
+        public IActionResult Delete(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var news = await _context.News
-                .Include(n => n.Category)
-                .FirstOrDefaultAsync(m => m.NewsId == id);
-            if (news == null)
-            {
-                return NotFound();
-            }
-
-            return View(news);
+          
+            return View(newsRepository.GetById(id));
         }
 
-        // POST: Admin/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        [HttpPost,ActionName("Delete")]
+        public IActionResult DeleteConfirmed(int newsId)
         {
-            var news = await _context.News.FindAsync(id);
-            _context.News.Remove(news);
-            await _context.SaveChangesAsync();
-            TempData["message"] = $"{news.NewsId} Id-li xeber silindi.";
-            return RedirectToAction(nameof(Index));
+
+            newsRepository.DeleteNews(newsId);
+            TempData["message"] = $"{newsId} nomreli xeber silindi";
+            return RedirectToAction("Index");
         }
 
-        private bool NewsExists(int id)
+        public async Task<IActionResult> Details(int id)
         {
-            return _context.News.Any(e => e.NewsId == id);
+            return View(newsRepository.GetById(id));
         }
+
+
+
     }
 }

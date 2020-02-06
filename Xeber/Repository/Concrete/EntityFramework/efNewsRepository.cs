@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,6 +39,12 @@ namespace Xeber.Repository.Concrete.EntityFramework
             return context.News.Where(i=>i.Deleted==false && i.IsActiv==true);
         }
 
+        public IQueryable<News> GetAllAdmin()
+        {
+
+            return context.News;
+        }
+
         public News GetById(int newsId)
         {
            return context.News.FirstOrDefault(p => p.NewsId == newsId);
@@ -55,7 +62,20 @@ namespace Xeber.Repository.Concrete.EntityFramework
 
         public void UpdateNews(News entity)
         {
-            context.Entry(entity).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            var news = GetById(entity.NewsId);
+            if (news !=null)
+            {
+                if (entity.ViewCount==null)
+                {
+                    news.ViewCount = 0;
+                }
+                news.NewsTitle = entity.NewsTitle;
+                news.NewsContent = entity.NewsContent;
+                news.Deleted = entity.Deleted;
+                news.IsActiv = entity.IsActiv;
+                news.UpdateDate = DateTime.Now;
+                context.SaveChanges();
+            }
             context.SaveChanges();
         }
     }

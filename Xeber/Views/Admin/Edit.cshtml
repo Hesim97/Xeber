@@ -15,7 +15,7 @@
 <hr />
 <div class="container">
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-8">
             <form asp-action="Edit" method="post" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <input type="hidden" asp-for="NewsId" />
@@ -25,20 +25,17 @@
                     <span asp-validation-for="NewsTitle" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="CategoryId" class="control-label"></label>
+                    <label class="control-label">Category</label>
                     <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
                     <span asp-validation-for="CategoryId" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="NewsContent" class="control-label"></label>
-                    <textarea asp-for="NewsContent" class="form-control"></textarea>
-                    @*<span asp-validation-for="NewsContent" class="text-danger"></span>*@
+                    <textarea asp-for="NewsContent" class="form-control"></textarea>                
                 </div>
-                <div class="form-group">
-                    @*<label asp-for="NewsImg" class="control-label"></label>*@
+                <div class="form-group">                 
                     <img src="~/img/@Model.NewsImg" width="110" />
-                    <input type="file" name="file" id="file" class="form-control" />
-                    @*<span asp-validation-for="NewsImg" class="text-danger"></span>*@
+                    <input type="file" name="file" id="file" class="form-control" required/>          
                 </div>
                 <div class="form-group">
                     <div class="checkbox">
@@ -56,6 +53,7 @@
                 </div>
                 <div class="form-group">
                     <input type="submit" value="Save" class="btn btn-success" />
+                    <a class="btn btn-primary" asp-action="Index">Geri</a>
                 </div>
             </form>
         </div>
@@ -63,6 +61,6 @@
 </div>
 
 <div>
-    <a class="btn btn-primary" asp-action="Index">Geri</a>
+   
 </div>
 

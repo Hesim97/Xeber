@@ -16,7 +16,7 @@
 }
 
 <div class=" justify-content-center">
-    @if (ViewBag.sl is null)
+    @if (ViewBag.sl is null && ViewBag.q==null) 
     {
         <div class="mb-3">
             @Html.Partial("_Slider", Model)
@@ -51,7 +51,6 @@
                })
             </div>
         }*@
-
 </div>
 
 
