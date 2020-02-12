@@ -64,15 +64,19 @@ namespace Xeber.Repository.Concrete.EntityFramework
         {
             var news = GetById(entity.NewsId);
             if (news !=null)
-            {
+            {              
                 if (entity.ViewCount==null)
                 {
                     news.ViewCount = 0;
-                }
+                }                                   
                 news.NewsTitle = entity.NewsTitle;
                 news.NewsContent = entity.NewsContent;
                 news.Deleted = entity.Deleted;
                 news.IsActiv = entity.IsActiv;
+                if (entity.NewsImg!=null)
+                {
+                   news.NewsImg = entity.NewsImg;
+                }              
                 news.UpdateDate = DateTime.Now;
                 context.SaveChanges();
             }

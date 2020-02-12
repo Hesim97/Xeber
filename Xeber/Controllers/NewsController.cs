@@ -7,8 +7,11 @@ using System.Linq.Expressions;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using RestSharp;
 using X.PagedList;
 using Xeber.Entity;
@@ -20,11 +23,12 @@ namespace Xeber.Controllers
      
     public class NewsController : Controller
     {
-       //Test GitHub
+        private readonly IStringLocalizer<NewsController> _localizer;
         private INewsRepository repository;
         private NewsContext context;
-        public NewsController(INewsRepository _repository, NewsContext context)
+        public NewsController(IStringLocalizer<NewsController> localizer,INewsRepository _repository, NewsContext context)
         {
+            _localizer = localizer;
             repository = _repository;
             this.context = context;
         }
@@ -32,12 +36,12 @@ namespace Xeber.Controllers
         {
 
             var query = repository.GetAll();
-            if (id != null)
+            if (id!=null)
             {
-                query = query.Where(i => i.CategoryId == id);
-               
-            }
-          
+                query = query.Where(i => i.CategoryId ==id);
+
+            }          
+
             if (!string.IsNullOrEmpty(q))
             {
                 query = repository.GetAll().Where(i => EF.Functions.Like(i.NewsContent, "%" + q + "%") || EF.Functions.Like(i.NewsTitle, "%" + q + "%")
@@ -49,8 +53,8 @@ namespace Xeber.Controllers
             //int pageSize = 6;
             //var query1 = query.ToList().ToPagedList(pageNumber, pageSize);            
             //ViewBag.pg = pageSize;
-            return View(query);
-          
+            return  View(query);  
+            
         }
 
         [HttpGet]
@@ -70,70 +74,20 @@ namespace Xeber.Controllers
             return View(query);
 
         }
-        public IActionResult Carousel()
-           {
-            var query = repository.GetAll().Where(i => i.IsActiv == true).OrderBy(m => m.CreateDate).Take(3);
-            return View(query);
-           }
-
-        //public IActionResult Idman(string q) {
-
-
-        //    var query = repository.News.Where(i => i.IsActiv == true);
-
-        //    if (!string.IsNullOrEmpty(q))
-        //    {
-        //        query = query.Where(i => EF.Functions.Like(i.NewsContent, "%" + q + "%") || EF.Functions.Like(i.NewsTitle, "%" + q + "%"));
-
-        //    }
-        //    return View(query.Where(i => i.CategoryId == 1 && i.IsActiv == true && i.Deleted == false).OrderByDescending(i => i.CreateDate));
-        //}
-
-
-
-        //public IActionResult Iqtisadiyyat(string q)
-        //{
-
-
-        //    var query = repository.News.Where(i => i.IsActiv == true);
-
-        //    if (!string.IsNullOrEmpty(q))
-        //    {
-        //        query = query.Where(i => EF.Functions.Like(i.NewsContent, "%" + q + "%") || EF.Functions.Like(i.NewsTitle, "%" + q + "%"));
-
-        //    }  
-        //      ViewBag.Count = repository.News.Select(i => i.ViewCount);
-        //    return View(query.Where(i => i.CategoryId == 2 && i.IsActiv == true && i.Deleted == false).OrderByDescending(i => i.CreateDate));
-        //}
-
-
-        //public IActionResult Auto(string q)
-        //{
-
-
-        //    var query = repository.News.Where(i => i.IsActiv == true);
-
-        //    if (!string.IsNullOrEmpty(q))
-        //    {
-        //        query = query.Where(i => EF.Functions.Like(i.NewsContent, "%" + q + "%") || EF.Functions.Like(i.NewsTitle, "%" + q + "%"));
-
-        //    }
-        //    return View(query.Where(i => i.CategoryId == 3 && i.IsActiv == true && i.Deleted == false).OrderByDescending(i => i.CreateDate));
-        //}
-
-        //public IActionResult SouBiznes(string q)
-        //{
-
-
-        //    var query = repository.News.Where(i => i.IsActiv == true);
-
-        //    if (!string.IsNullOrEmpty(q))
-        //    {
-        //        query = query.Where(i => EF.Functions.Like(i.NewsContent, "%" + q + "%") || EF.Functions.Like(i.NewsTitle, "%" + q + "%"));
-
-        //    }
-        //    return View(query.Where(i => i.CategoryId == 4 && i.IsActiv == true && i.Deleted == false).OrderByDescending(i => i.CreateDate));
-        //}
        
+        [HttpPost]
+        public IActionResult SetLanguage(string culture, string returnUrl)
+        {
+            Response.Cookies.Append(
+                CookieRequestCultureProvider.DefaultCookieName,
+                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+            );
+
+            return LocalRedirect(returnUrl);
+        }
+
+
+
     }
 }

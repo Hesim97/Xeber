@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -76,28 +77,36 @@ namespace Xeber.Controllers
         [HttpPost]
         public async Task <IActionResult> Edit(News entity, IFormFile file)
         {
+           
             if (ModelState.IsValid)
             {
-                if (file==null)
+                
+                //News tbl_News = new News();
+                if (file != null)
                 {
-                    entity.NewsImg = entity.NewsImg;
-                }
- 
-                   var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\img", file.FileName);
-                    using (var stream = new FileStream(path, FileMode.Create))
+                    //Set Key Name
+                    string FileName = Guid.NewGuid().ToString()+Path.GetExtension(file.FileName);
+                    //Get url To Save
+                    string SavePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img", FileName);
+                    using (var stream = new FileStream(SavePath, FileMode.Create))
                     {
-                    await file.CopyToAsync(stream);
+                       await file.CopyToAsync(stream);
                     }
-
-                //entity.IsActiv = true;
-                entity.NewsImg = file.FileName;
-                //entity.UpdateDate = DateTime.Now;
-                newsRepository.UpdateNews(entity);
-                return RedirectToAction("Index");
+                    if (file.FileName==null)
+                    {
+                        
+                    }
+                            
+                    entity.NewsImg = file.FileName; 
+                } 
+                      newsRepository.UpdateNews(entity);
+                      return RedirectToAction("Index");
+                              
             }
             ViewData["CategoryId"] = new SelectList(categoryRepository.GetAll(), "Id", "CatName");
             return View(entity);
         }
+       
         [HttpGet]
         public IActionResult Delete(int id)
         {
@@ -118,8 +127,5 @@ namespace Xeber.Controllers
         {
             return View(newsRepository.GetById(id));
         }
-
-
-
     }
 }

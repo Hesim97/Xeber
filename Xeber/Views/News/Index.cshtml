@@ -1,22 +1,22 @@
-﻿@model IEnumerable<News>
+﻿
+@model IEnumerable<News>
 @using X.PagedList.Mvc.Core
 @using X.PagedList
-
 @{
-    ViewData["Title"] = "Xəbər || Ana Səhifə";
+    ViewData["Title"] = "Baş Səhifə";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<partial name="_CookieConsentPartial" />
 @if (Model.Count() == 0)
 {
     <div class="bg-dark text-white p-1 m-1">
         <h2>Bu kategoriyaya aid xəbər yoxdur</h2>
     </div>
-
 }
-
 <div class=" justify-content-center">
-    @if (ViewBag.sl is null && ViewBag.q==null) 
+
+    @if (ViewBag.sl is null && ViewBag.q == null)
     {
         <div class="mb-3">
             @Html.Partial("_Slider", Model)
@@ -28,7 +28,7 @@
             <a asp-action="Details" asp-route-id="@item.NewsId" style=" color:black">
                 <img src="~/img/@item.NewsImg" width="250" height="250" asp-append-version="true" alt="...">
                 <div class="card-body" style="height: 200px; overflow: hidden; width: 250px;">
-                    <h5 class="card-title">@Html.DisplayFor(modelItem => item.NewsTitle)</h5>
+                    <h5 class="card-title"> @Html.DisplayFor(modelItem => item.NewsTitle)</h5>
                 </div>
             </a>
             <img src="~/lib/Icons/eye.svg" asp-append-version="true" width="25" height="20" />
@@ -38,6 +38,7 @@
             </div>
         </div>
     }
+
     @*@if (Model.Count() > 0) {
             <div class="pagination justify-content-center">
                 @Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page }),

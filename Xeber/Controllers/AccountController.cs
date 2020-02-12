@@ -45,7 +45,7 @@ namespace Xeber.Controllers
                     var result = await signInManager.PasswordSignInAsync(user, model.Password, false, false);
                     if (result.Succeeded)
                     {
-                        return Redirect(returnUrl ?? "Admin");
+                        return Redirect(returnUrl ?? "/");
                     }
                 }
                 ModelState.AddModelError("Email", "Involid Email or Password");
