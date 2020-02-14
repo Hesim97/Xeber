@@ -74,11 +74,8 @@ namespace Xeber
             services.Configure<RequestLocalizationOptions>(opts => {
                 var supportedCultures = new List<CultureInfo> {
                     new CultureInfo("en"),
-                    new CultureInfo("en-US"),
                     new CultureInfo("az"),                                     
-                    new CultureInfo("az-AZ"),
                     new CultureInfo("ru"),
-                    new CultureInfo("ru-RU"),
                   };
 
                 opts.DefaultRequestCulture = new RequestCulture("az","az");

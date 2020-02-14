@@ -1,16 +1,15 @@
 ﻿@using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer _localizer
-@model IEnumerable<Category>
+@model IEnumerable<Xeber.Entity.Category>
 <nav class="nav">
     <ul class="myUl" id="myull">
-        <li class="navMenu "><a asp-controller="News" asp-action="Index" asp-route-id="" class=" navbar-brand">Baş Səhifə</a></li>
+        <li class="navMenu "><a asp-controller="News" asp-action="Index" asp-route-id="" class=" navbar-brand">@_localizer["Baş Səhifə"]</a></li>
         @foreach (var item in Model)
         {
             <li class="navMenu"><a asp-controller="News" asp-action="Index" asp-route-id="@item.Id" class=" navbar-brand">@_localizer[@item.CatName]</a></li>
         }
-        <li class="navMenu">@Html.Partial("_Search")</li>
-
-
+        <partial class="navMenu">@Html.Partial("_Search")</partial>
+        <partial>  @await Html.PartialAsync("_SelectLanguagePartial")</partial>
     </ul>
 </nav>
 

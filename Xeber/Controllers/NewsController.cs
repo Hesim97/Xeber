@@ -74,7 +74,7 @@ namespace Xeber.Controllers
             return View(query);
 
         }
-       
+
         [HttpPost]
         public IActionResult SetLanguage(string culture, string returnUrl)
         {

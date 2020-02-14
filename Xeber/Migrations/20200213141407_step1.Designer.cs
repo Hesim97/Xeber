@@ -10,8 +10,8 @@ using Xeber.Repository.Concrete.EntityFramework;
 namespace Xeber.Migrations
 {
     [DbContext(typeof(NewsContext))]
-    [Migration("20200127114140_step2")]
-    partial class step2
+    [Migration("20200213141407_step1")]
+    partial class step1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -34,6 +34,24 @@ namespace Xeber.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("Xeber.Entity.Langs", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("DisplayName");
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.Property<int>("Priority");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Langs");
                 });
 
             modelBuilder.Entity("Xeber.Entity.News", b =>
@@ -60,7 +78,7 @@ namespace Xeber.Migrations
 
                     b.Property<DateTime?>("UpdateDate");
 
-                    b.Property<int>("ViewCount");
+                    b.Property<int?>("ViewCount");
 
                     b.HasKey("NewsId");
 
@@ -69,11 +87,54 @@ namespace Xeber.Migrations
                     b.ToTable("News");
                 });
 
+            modelBuilder.Entity("Xeber.Entity.NewsLang", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreateDate");
+
+                    b.Property<int>("LangId");
+
+                    b.Property<int?>("LangsId");
+
+                    b.Property<string>("NewsContent");
+
+                    b.Property<int>("NewsId");
+
+                    b.Property<string>("NewsTitle");
+
+                    b.Property<DateTime?>("UpdateDate");
+
+                    b.Property<int?>("ViewCount");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LangsId");
+
+                    b.HasIndex("NewsId");
+
+                    b.ToTable("NewsLang");
+                });
+
             modelBuilder.Entity("Xeber.Entity.News", b =>
                 {
                     b.HasOne("Xeber.Entity.Category", "Category")
                         .WithMany("News")
                         .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Xeber.Entity.NewsLang", b =>
+                {
+                    b.HasOne("Xeber.Entity.Langs", "Langs")
+                        .WithMany("NewsLang")
+                        .HasForeignKey("LangsId");
+
+                    b.HasOne("Xeber.Entity.News", "News")
+                        .WithMany("NewsLang")
+                        .HasForeignKey("NewsId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

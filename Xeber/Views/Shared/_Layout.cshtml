@@ -29,7 +29,7 @@
             padding: 0;
             background-color: black;
             z-index: 1;
-            width: 100%;
+            width: 100%;          
             position: fixed;
         }
 
@@ -75,43 +75,43 @@
     </style>
 </head>
 <body>
-
+    <partial name="_CookieConsentPartial" />
     <div>
-    @await Component.InvokeAsync("CategoryMenu")
+        @await Component.InvokeAsync("CategoryMenu")
     </div>
-    <div style="margin:72px 300px" class="d-flex justify-content-center col-md-8">
+   
         @RenderBody()
-    </div>
-            @await Html.PartialAsync("_SelectLanguagePartial")
-       
-        <footer>
-
-            <div class="card-footer">
-                <p>&copy;2020 --Xəbərlər</p>
-            </div>
-        </footer>
+   
 
 
+    <footer>
 
-        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-                integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-                integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-                integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <div class="card-footer">
+            <p>&copy;2020 --@_localizer["Xəbərlər"]</p>
+        </div>
+    </footer>
 
-        <script type="text/javascript">
-            (function () {
-                var current = location.pathname;
-                $('#myull li a').each(function () {
-                    var $this = $(this);
-                    // we check comparison between current page and attribute redirection.
-                    if ($this.attr('href') === current) {
-                        $this.addClass('active');
-                    }
-                });
-            })();
-        </script>
-        @RenderSection("scripts", false)
+
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+        (function () {
+            var current = location.pathname;
+            $('#myull li a').each(function () {
+                var $this = $(this);
+                // we check comparison between current page and attribute redirection.
+                if ($this.attr('href') === current) {
+                    $this.addClass('active');
+                }
+            });
+        })();
+    </script>
+    @RenderSection("scripts", false)
 </body>
 </html>

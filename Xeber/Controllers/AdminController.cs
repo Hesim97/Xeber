@@ -18,7 +18,7 @@ using Xeber.Repository.Concrete.EntityFramework;
 
 namespace Xeber.Controllers
 {
-
+    [Authorize]
     public class AdminController : Controller
     {
         private INewsRepository newsRepository;
@@ -30,7 +30,7 @@ namespace Xeber.Controllers
             categoryRepository = _categoryRepository;
         }
         // GET: Admin
-        [Authorize]
+      
         public IActionResult Index(int? page)
         {
             var pageNumber = page ?? 1;
@@ -46,7 +46,7 @@ namespace Xeber.Controllers
             return View();
         }
         [HttpPost]
-        public async Task <IActionResult> Create(News entity,IFormFile file)
+        public async Task <IActionResult> Create(Entity.News entity,IFormFile file)
         {
             
             if (ModelState.IsValid)
@@ -75,7 +75,7 @@ namespace Xeber.Controllers
         }
 
         [HttpPost]
-        public async Task <IActionResult> Edit(News entity, IFormFile file)
+        public async Task <IActionResult> Edit(Entity.News entity, IFormFile file)
         {
            
             if (ModelState.IsValid)

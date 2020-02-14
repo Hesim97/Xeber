@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Xeber.Entity;
 
 namespace Xeber.Models
 {
@@ -14,5 +15,6 @@ namespace Xeber.Models
         {
                 
         }
+        public DbSet<Xeber.Entity.NewsLang> NewsLang { get; set; }
     }
 }

@@ -9,11 +9,11 @@ namespace Xeber.Entity
 {
     public class News 
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]   
         public int NewsId { get; set; }
         public string NewsTitle { get; set; }
         public int CategoryId { get; set; }
-        public string NewsContent { get; set; }
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]     
+        public string NewsContent { get; set; }               
         public DateTime CreateDate { get; set; }
         [BindNever]
         public DateTime? UpdateDate { get; set; }
@@ -23,6 +23,7 @@ namespace Xeber.Entity
         public bool IsActiv { get; set; }
         public bool Deleted { get; set; }
         public Category Category { get; set; }
+        public List<NewsLang> NewsLang { get; set; }
     }
 }
 

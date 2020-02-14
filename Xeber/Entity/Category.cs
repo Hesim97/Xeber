@@ -16,6 +16,7 @@ namespace Xeber.Entity
         public string CatName { get; set; }
         public string CatImg { get; set; }
         public List<News> News { get; set; }
+        
     }
 }
 
