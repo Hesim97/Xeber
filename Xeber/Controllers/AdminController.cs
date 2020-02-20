@@ -18,7 +18,7 @@ using Xeber.Repository.Concrete.EntityFramework;
 
 namespace Xeber.Controllers
 {
-    [Authorize]
+   [Authorize]
     public class AdminController : Controller
     {
         private INewsRepository newsRepository;

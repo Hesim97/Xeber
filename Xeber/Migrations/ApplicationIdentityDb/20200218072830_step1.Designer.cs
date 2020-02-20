@@ -10,8 +10,8 @@ using Xeber.Models;
 namespace Xeber.Migrations.ApplicationIdentityDb
 {
     [DbContext(typeof(ApplicationIdentityDbContext))]
-    [Migration("20200213141515_step2")]
-    partial class step2
+    [Migration("20200218072830_step1")]
+    partial class step1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

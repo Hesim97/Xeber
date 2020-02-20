@@ -1,0 +1,64 @@
+﻿@model Xeber.Entity.NewsLang
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>NewsLang</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.LangId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.LangId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.NewsTitle)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NewsTitle)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.NewsContent)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NewsContent)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ViewCount)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ViewCount)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CreateDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CreateDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdateDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UpdateDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.News)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.News.Id)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

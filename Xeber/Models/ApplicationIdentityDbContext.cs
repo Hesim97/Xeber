@@ -15,6 +15,6 @@ namespace Xeber.Models
         {
                 
         }
-        public DbSet<Xeber.Entity.NewsLang> NewsLang { get; set; }
+        //public DbSet<Xeber.Entity.NewsLang> NewsLang { get; set; }
     }
 }

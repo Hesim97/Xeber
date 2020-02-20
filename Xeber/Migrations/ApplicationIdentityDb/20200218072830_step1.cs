@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Xeber.Migrations.ApplicationIdentityDb
 {
-    public partial class step2 : Migration
+    public partial class step1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

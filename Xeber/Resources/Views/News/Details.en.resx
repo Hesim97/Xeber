@@ -117,34 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Avropanın ən yaxşı maşını adına 7 namizəd var." xml:space="preserve">
-    <value>There are 7 nominees for the best car in Europe.</value>
-  </data>
-  <data name="Avto" xml:space="preserve">
-    <value>Auto</value>
-  </data>
-  <data name="Baş Səhifə" xml:space="preserve">
-    <value>Home</value>
-  </data>
-  <data name="Bu kategoriyaya aid xəbər yoxdur" xml:space="preserve">
-    <value>There are no news in this category</value>
-  </data>
-  <data name="Hərbi" xml:space="preserve">
-    <value>Military</value>
-  </data>
-  <data name="Kriminal" xml:space="preserve">
-    <value>Criminal</value>
-  </data>
-  <data name="İdman" xml:space="preserve">
-    <value>Suports</value>
-  </data>
-  <data name="İqtisadiyyat" xml:space="preserve">
-    <value>Economy</value>
-  </data>
-  <data name="Şou Biznes" xml:space="preserve">
-    <value>Show Businnes</value>
-  </data>
-  <data name="“Mercedes” bu modellərini geri çağıracaq: İstehsal xətası var" xml:space="preserve">
-    <value>Mercedes will recall these models: There is a production error</value>
+  <data name="Ermənistan silahlı qüvvələrinin bölmələri ilə əlaqəli hava limanlarının ilişib qalması ilə 22 dəfə pozub.&#xD;&#xA;Göyarx, Çiləbürt, Ağdam rayonu Cəvahirli, Yusifcanlı, Xocavənd rayonunun Kuropatkino, Füzuli rayonu Horadiz, Cəbrayıl rayonunun Nüzgar kəndləri yaxınlığı, Goranboy və Tərtər rayonları arasında ən yaxşı reklamlar təqdim olunur." xml:space="preserve">
+    <value>Armenia has violated airports associated with units of the Armed Forces 22 times due to overheating.
+The best advertising between Goyarkh, Chilaburt, Javahirli, Aghdam district, Yusifcanli, Kuropatkino of Khojavend district, Horadiz of Fuzuli district, Nuzgar village of Jabrayil region, and best advertising between Goranboy and Tartar regions.</value>
   </data>
 </root>

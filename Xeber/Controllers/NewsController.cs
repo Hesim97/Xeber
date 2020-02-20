@@ -20,28 +20,26 @@ using Xeber.Repository.Concrete.EntityFramework;
 
 namespace Xeber.Controllers
 {
-     
     public class NewsController : Controller
     {
         private readonly IStringLocalizer<NewsController> _localizer;
         private INewsRepository repository;
         private NewsContext context;
-        public NewsController(IStringLocalizer<NewsController> localizer,INewsRepository _repository, NewsContext context)
+        public NewsController(IStringLocalizer<NewsController> localizer, INewsRepository _repository, NewsContext context)
         {
             _localizer = localizer;
             repository = _repository;
             this.context = context;
         }
-        public IActionResult Index(string q,int? id,int? page)
+        public IActionResult Index(string q, int? id, int? page)
         {
 
             var query = repository.GetAll();
-            if (id!=null)
+            if (id != null)
             {
-                query = query.Where(i => i.CategoryId ==id);
+                query = query.Where(i => i.CategoryId == id);
 
-            }          
-
+            }
             if (!string.IsNullOrEmpty(q))
             {
                 query = repository.GetAll().Where(i => EF.Functions.Like(i.NewsContent, "%" + q + "%") || EF.Functions.Like(i.NewsTitle, "%" + q + "%")
@@ -51,10 +49,10 @@ namespace Xeber.Controllers
             ViewBag.sl = id;
             //var pageNumber = page ?? 1;
             //int pageSize = 6;
-            //var query1 = query.ToList().ToPagedList(pageNumber, pageSize);            
+            //var query1 = query.ToList().ToPagedList(pageNumber, pageSize);
             //ViewBag.pg = pageSize;
-            return  View(query);  
-            
+             return View(query);
+
         }
 
         [HttpGet]
@@ -62,9 +60,9 @@ namespace Xeber.Controllers
         {
             var news1 = await repository.GetAll()
                 .Include(n => n.Category)
-               .FirstOrDefaultAsync(m => m.NewsId == Id);
+               .FirstOrDefaultAsync(m => m.Id == Id);
 
-            var query = await repository.GetAll().Where(x => x.NewsId == Id).SingleOrDefaultAsync();
+            var query = await repository.GetAll().Where(x => x.Id == Id).SingleOrDefaultAsync();
             query.ViewCount += 1;
             news.ViewCount = query.ViewCount;
             context.Update(news1);
@@ -72,7 +70,7 @@ namespace Xeber.Controllers
             ViewBag.CatId = query.CategoryId;
             await context.SaveChangesAsync();
             return View(query);
-
+            
         }
 
         [HttpPost]
@@ -83,7 +81,6 @@ namespace Xeber.Controllers
                 CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
                 new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
             );
-
             return LocalRedirect(returnUrl);
         }
 

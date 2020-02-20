@@ -10,8 +10,8 @@ using Xeber.Repository.Concrete.EntityFramework;
 namespace Xeber.Migrations
 {
     [DbContext(typeof(NewsContext))]
-    [Migration("20200213141407_step1")]
-    partial class step1
+    [Migration("20200218075527_step2")]
+    partial class step2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -42,7 +42,8 @@ namespace Xeber.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("DisplayName");
+                    b.Property<string>("DisplayName")
+                        .IsRequired();
 
                     b.Property<string>("Name")
                         .IsRequired();
@@ -56,7 +57,7 @@ namespace Xeber.Migrations
 
             modelBuilder.Entity("Xeber.Entity.News", b =>
                 {
-                    b.Property<int>("NewsId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -80,7 +81,7 @@ namespace Xeber.Migrations
 
                     b.Property<int?>("ViewCount");
 
-                    b.HasKey("NewsId");
+                    b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
 

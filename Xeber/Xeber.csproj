@@ -4,10 +4,11 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
-  <ItemGroup>
+    <ItemGroup>
     <PackageReference Include="bootstrap" Version="4.4.1" />
     <PackageReference Include="CKEditor" Version="3.6.4" />
     <PackageReference Include="jQuery" Version="3.4.1" />
+    <PackageReference Include="Localization.SqlLocalizer" Version="2.0.6" />
     <PackageReference Include="Microsoft.AspNet.Identity.Core" Version="2.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
@@ -15,13 +16,12 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.Design" Version="1.1.6" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.10" />
+    <PackageReference Include="Microsoft.AspNetCore.Localization" Version="2.1.1" />
     <PackageReference Include="RestSharp" Version="106.10.1" />
     <PackageReference Include="X.PagedList.Mvc.Core" Version="7.6.0" />
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0"></DotNetCliToolReference>
-  </ItemGroup>
-
-  <ItemGroup>
+    </ItemGroup>
+    <ItemGroup>
     <Folder Include="wwwroot\img\" />
-  </ItemGroup>
-
+    </ItemGroup>
 </Project>

@@ -117,33 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Avropanın ən yaxşı maşını adına 7 namizəd var." xml:space="preserve">
-    <value>There are 7 nominees for the best car in Europe.</value>
-  </data>
-  <data name="Avto" xml:space="preserve">
-    <value>Auto</value>
-  </data>
-  <data name="Baş Səhifə" xml:space="preserve">
-    <value>Home</value>
-  </data>
-  <data name="Bu kategoriyaya aid xəbər yoxdur" xml:space="preserve">
-    <value>There are no news in this category</value>
-  </data>
-  <data name="Hərbi" xml:space="preserve">
-    <value>Military</value>
-  </data>
-  <data name="Kriminal" xml:space="preserve">
-    <value>Criminal</value>
-  </data>
-  <data name="İdman" xml:space="preserve">
-    <value>Suports</value>
-  </data>
-  <data name="İqtisadiyyat" xml:space="preserve">
-    <value>Economy</value>
-  </data>
-  <data name="Şou Biznes" xml:space="preserve">
-    <value>Show Businnes</value>
-  </data>
   <data name="“Mercedes” bu modellərini geri çağıracaq: İstehsal xətası var" xml:space="preserve">
     <value>Mercedes will recall these models: There is a production error</value>
   </data>

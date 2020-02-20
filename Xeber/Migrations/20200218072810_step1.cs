@@ -41,7 +41,7 @@ namespace Xeber.Migrations
                 name: "News",
                 columns: table => new
                 {
-                    NewsId = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     NewsTitle = table.Column<string>(nullable: true),
                     CategoryId = table.Column<int>(nullable: false),
@@ -55,7 +55,7 @@ namespace Xeber.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_News", x => x.NewsId);
+                    table.PrimaryKey("PK_News", x => x.Id);
                     table.ForeignKey(
                         name: "FK_News_Categories_CategoryId",
                         column: x => x.CategoryId,
@@ -92,7 +92,7 @@ namespace Xeber.Migrations
                         name: "FK_NewsLang_News_NewsId",
                         column: x => x.NewsId,
                         principalTable: "News",
-                        principalColumn: "NewsId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 

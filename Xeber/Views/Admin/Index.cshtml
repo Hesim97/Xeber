@@ -83,9 +83,10 @@
                             @Html.DisplayFor(modelItem => item.Deleted)
                         </td>
                         <td>
-                            <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.NewsId"><i class="fas fa-edit m-2"></i></a>
-                            <a class="btn btn-success" asp-action="Details" asp-route-id="@item.NewsId"><i class="fas fa-info-circle m-2"></i></a>
-                            <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.NewsId"><i class="fas fa-trash m-2"></i></a>
+                            <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit m-2"></i></a>
+                            <a class="btn btn-success" asp-action="Details" asp-route-id="@item.Id"><i class="fas fa-info-circle m-2"></i></a>
+                            <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash m-2"></i></a>
+                            <a class="btn btn-primary"asp-controller="NewsLangs" asp-action="Create" asp-route-id="@item.Id">Lang</a>
                         </td>
                     </tr>
                 }

@@ -10,7 +10,7 @@ namespace Xeber.Entity
     public class News 
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]   
-        public int NewsId { get; set; }
+        public int Id { get; set; }
         public string NewsTitle { get; set; }
         public int CategoryId { get; set; }
         public string NewsContent { get; set; }               

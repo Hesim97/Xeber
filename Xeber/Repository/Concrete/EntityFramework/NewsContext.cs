@@ -26,6 +26,10 @@ namespace Xeber.Repository.Concrete.EntityFramework
             base.OnModelCreating(modelBuilder);
         }
 
+        public DbSet<Xeber.Entity.NewsLang> NewsLang { get; set; }
+
+        public DbSet<Xeber.Entity.Langs> Langs { get; set; }
+
 
     }
 }
