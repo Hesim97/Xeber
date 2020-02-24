@@ -4,62 +4,46 @@
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
+@section scripts{
+    <script src="~/lib/ckeditor/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace("NewsContent");
+    </script>
+}
 
 <h2>Edit</h2>
 
 <h4>NewsLang</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="NewsId" class="control-label"></label>
-                <select asp-for="NewsId" class="form-control" asp-items="ViewBag.NewsId"></select>
-                <span asp-validation-for="NewsId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LangId" class="control-label"></label>
-                <input asp-for="LangId" class="form-control" />
-                <span asp-validation-for="LangId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NewsTitle" class="control-label"></label>
-                <input asp-for="NewsTitle" class="form-control" />
-                <span asp-validation-for="NewsTitle" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NewsContent" class="control-label"></label>
-                <input asp-for="NewsContent" class="form-control" />
-                <span asp-validation-for="NewsContent" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ViewCount" class="control-label"></label>
-                <input asp-for="ViewCount" class="form-control" />
-                <span asp-validation-for="ViewCount" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CreateDate" class="control-label"></label>
-                <input asp-for="CreateDate" class="form-control" />
-                <span asp-validation-for="CreateDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UpdateDate" class="control-label"></label>
-                <input asp-for="UpdateDate" class="form-control" />
-                <span asp-validation-for="UpdateDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </form>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label class="control-label">Xəbər Seç</label>
+                    <select asp-for="NewsId" class="form-control" asp-items="ViewBag.NewsId"></select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Dil Seç</label>
+                    <select asp-for="LangId" class="form-control" asp-items="ViewBag.LangName"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="NewsTitle" class="control-label"></label>
+                    <input asp-for="NewsTitle" class="form-control" required />
+                    <span asp-validation-for="NewsTitle" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Mezmun</label>
+                    <textarea asp-for="NewsContent" class="form-control" required></textarea>
+                    <span asp-validation-for="NewsContent" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-success" />
+                    <a class="btn btn-primary" asp-action="Index">Geri</a>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}

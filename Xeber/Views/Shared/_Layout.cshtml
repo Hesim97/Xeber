@@ -17,20 +17,21 @@
     <script src="https://kit.fontawesome.com/78ef0287c3.js" crossorigin="anonymous"></script>
     <title>@Html.Raw(ViewBag.Title)</title>
     <link href="~/_BreadCrumb.css" rel="stylesheet" />
+    <link href="~/lib/css/bootstrap.css" rel="stylesheet" />
     <style>
 
         .pagination {
             z-index: 1;
         }
-
         .myUl {
             list-style-type: none;
             margin: 0;
             padding: 0;
-            background-color: black;
             z-index: 1;
-            width: 100%;          
-            position: fixed;
+            background-color: darkslategray;
+            width: 100%;
+            position: sticky;
+            top:0;
         }
 
         .navMenu {
@@ -44,9 +45,7 @@
             text-decoration: none;
             padding: 15px 20px;
         }
-        /*.navMenu .navbar-brand {
-                background-color: #f39c12;
-            }*/
+
         .active,
         .navMenu:not(:last-child):hover {
             background-color: #808080
@@ -58,34 +57,41 @@
             position: absolute;
             width: 100px
         }
-        /*.myUl .navMenu:hover .myUl {
+
+        .myUl .navMenu:hover .myUl {
             display: block;
-        }*/
+        }
+
         .navMenu .myUl .navMenu {
             display: block;
         }
 
-        .card-footer {
+        /*.card-footer {
             min-height: 5%;
             width: 100%;
             color: black;
             text-align: center;
             margin: 0;
-        }
+        }*/
     </style>
 </head>
 <body>
     <partial name="_CookieConsentPartial" />
-    <div>
-        @await Component.InvokeAsync("CategoryMenu")
-    </div> 
-        @RenderBody()
-    <footer>
-
-        <div class="card-footer">
-            <p>&copy;2020 --@_localizer["Xəbərlər"]</p>
+    <header>
+        <div>
+            @await Component.InvokeAsync("CategoryMenu")
         </div>
-    </footer>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+        <footer class="border-top footer text-muted">
+            <div class="container">
+                <p>&copy;2020 --@_localizer["Xəbərlər"]</p>
+            </div>
+        </footer>
 
 
 

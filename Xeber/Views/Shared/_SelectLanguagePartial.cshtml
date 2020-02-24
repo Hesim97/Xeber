@@ -10,17 +10,85 @@
 @{
     var requestCulture = Context.Features.Get<IRequestCultureFeature>();
     var cultureItems = LocOptions.Value.SupportedUICultures
-        .Select(c => new SelectListItem { Value = c.Name, Text = c.DisplayName })
+        .Select(c => new SelectListItem { Value = c.Name, Text = c.Name })
         .ToList();
+    var returnUrl = string.IsNullOrEmpty(Context.Request.Path) ? "~/" : $"~{Context.Request.Path.Value}";
 }
 
-<div style="width:25%" title="@Localizer["Request culture provider:"] @requestCulture?.Provider?.GetType().Name">
-    <form id="selectLanguage" asp-controller="News"
-          asp-action="SetLanguage" asp-route-returnUrl="@Context.Request.Path"
-          method="post" class="form-horizontal" role="form">
-        @Localizer["Language:"] <select name="culture"
-                                        asp-for="@requestCulture.RequestCulture.UICulture.Name" asp-items="cultureItems"></select>
-        <button type="submit" class="btn btn-success btn-xs">Save</button>
 
-    </form>
-</div>
+<form id="selectLanguage" asp-controller="News"
+      asp-action="SetLanguage" asp-route-returnUrl="@Context.Request.Path"
+      method="post" class="form-horizontal" role="form">
+    @if (requestCulture != null)
+    {
+        <input type="hidden" name="currentCulture" value="@requestCulture.RequestCulture.UICulture.Name" />
+    }
+    <label asp-for="@requestCulture.RequestCulture.UICulture.Name"><i class="fa fa-language"></i></label>
+    <select  name="culture" id="cultureID"  onchange="this.form.submit();"
+            asp-for="@requestCulture.RequestCulture.UICulture.Name" asp-items="cultureItems"></select>
+
+
+</form>
+
+
+
+@*<div style="width:25%" title="@Localizer["Request culture provider:"] @requestCulture?.Provider?.GetType().Name">
+        <form id="selectLanguage" asp-controller="News"
+              asp-action="SetLanguage" asp-route-returnUrl="@Context.Request.Path"
+              method="post" class="form-horizontal" role="form">
+            @Localizer["Language:"] <select name="culture" id="cultureID"
+                                            asp-for="@requestCulture.RequestCulture.UICulture.Name" asp-items="cultureItems"></select>
+            <button type="submit" id="btnLanguageSubmit" class="btn btn-success btn-xs">Save</button>
+
+        </form>
+    </div>*@
+
+<script>
+
+
+    function setCookie(cname, cvalue, exdays) {
+                var d = new Date();
+                d.setTime(d.getTime() + (exdays *24 * 60 * 60 *1000));
+                var expires = "expires=" + d.toUTCString();
+                document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+    function getCookie(cname) {
+                var name = cname + "=";
+                var decodedCookie = decodeURIComponent(document.cookie);
+                var ca = decodedCookie.split(';');
+                for (var i = 0; i < ca.length; i++) {
+                    var c = ca[i];
+                    while (c.charAt(0) == ' ') {
+                        c = c.substring(1);
+                    }
+                    if (c.indexOf(name) == 0) {
+                        return c.substring(name.length, c.length);
+                    }
+                }
+                return "";
+            }
+
+
+    $(document).ready(function () {
+
+        $('#cultureID').click(function () {
+
+            var currentLanguage = $('#cultureID').val();
+            setCookie("lang", currentLanguage, 30)
+            console.log(currentLanguage);
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("SetLanguage","News")',
+                data: { "culture": currentLanguage },
+                success: function () {
+                    alert('ok');
+                }
+            });
+
+        })
+    })
+
+
+
+</script>

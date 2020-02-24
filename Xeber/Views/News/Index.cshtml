@@ -1,44 +1,46 @@
 ﻿@using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer _localizer
-@model IEnumerable<Xeber.Entity.News>
+@model IEnumerable<Xeber.Entity.NewsLang>
 @using X.PagedList.Mvc.Core
 @using X.PagedList
 @{
     ViewData["Title"] = "Baş Səhifə";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-@if (Model.Count() == 0)
-{
-    <div class="bg-dark text-white p-1 m-1">
-        <h2>Bu kategoriyaya aid xəbər yoxdur</h2>
-    </div>
-}
-<div style="margin-top:100px" class="container-md">
-    @if (ViewBag.sl is null && ViewBag.q == null)
+<div style="margin-top:10px" class="container-md">
+    
+    @if (Model.Count() == 0)
     {
-    <div class="mb-1 mt-1">
-        @Html.Partial("_Slider", Model)
-    </div>
-    }
-<div class="container ml-5">
-    @foreach (var item in Model)
-    {
-        <div class="card" style="margin-bottom:8px;display:inline-block">
-            <a asp-action="Details" asp-route-id="@item.Id" style=" color:black">
-                <img src="~/img/@item.NewsImg" width="250" height="250" asp-append-version="true" alt="...">
-                <div class="card-body" style="height: 200px; overflow: hidden; width: 250px;">
-                    <h5 class="card-title">@_localizer[@item.NewsTitle]</h5>
-                </div>
-            </a>
-            <img src="~/lib/Icons/eye.svg" asp-append-version="true" width="25" height="20" />
-            @item.ViewCount
-            <div class="card-footer">
-                <time datetime="@item.CreateDate.ToString("yyyy-MM-dd")">@item.CreateDate.ToString("dd MMMM yyyy")</time>
-            </div>
+        <div class="bg-dark text-white p-1 m-1">
+            <h2>@_localizer["Bu kategoriyaya aid xəbər yoxdur"]</h2>
         </div>
     }
-</div>
+
+
+    @if (ViewBag.sl is null && ViewBag.q == null)
+    {
+        <div class="mb-1 mt-1">
+            @Html.Partial("_Slider", Model)
+        </div>
+    }
+    <div class="container ml-5">
+        @foreach (var item in Model)
+        {
+            <div class="card" style="margin-bottom:8px;display:inline-block">
+                <a target="_blank" asp-action="Details" asp-route-id="@item.NewsId" style=" color:black">
+                    <img src="~/img/@item.News.NewsImg" width="250" height="250" asp-append-version="true" alt="...">
+                    <div class="card-body" style="height: 200px; overflow: hidden; width: 250px;">
+                        <h5 class="card-title">@item.NewsTitle</h5>
+                    </div>
+                </a>
+                <img src="~/lib/Icons/eye.svg" asp-append-version="true" width="25" height="20" />
+                @item.ViewCount
+                <div class="card-footer">
+                    <time datetime="@item.CreateDate.ToString("yyyy-MM-dd")">@item.CreateDate.ToString("dd MMMM yyyy")</time>
+                </div>
+            </div>
+        }
+    </div>
     @*@if (Model.Count() > 0) {
             <div class="pagination justify-content-center">
                 @Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page }),

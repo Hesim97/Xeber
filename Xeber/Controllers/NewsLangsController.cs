@@ -18,54 +18,98 @@ namespace Xeber.Controllers
         {
             _context = context;
         }
-
-        // GET: NewsLangs
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string q, int? id)
         {
-            var newsContext = _context.NewsLang.Include(n => n.News);
+            var query = _context.NewsLang.Include(n => n.News);
+            int langInt = 0;
+            var lang = Request.Cookies["lang"];
+            switch (lang)
+            {
+                case "az":
+                    {
+                        langInt = (int)LangEnums.az;
+                        break;
+                    }
+                case "en":
+                    {
+                        langInt = (int)LangEnums.en;
+                        break;
+                    }
+                case "ru":
+                    {
+                        langInt = (int)LangEnums.ru;
+                        break;
+                    }
+                default:
+                    break;
+            }
+
+            var newsContext = _context.NewsLang.Include(n => n.News).Where(i => i.LangId == langInt);
+            if (!string.IsNullOrEmpty(q))
+            {
+                newsContext = newsContext.Where(i => EF.Functions.Like(i.NewsContent, "%" + q + "%") || EF.Functions.Like(i.NewsTitle, "%" + q + "%")
+                   && (i.News.IsActiv == true && i.News.Deleted == false));
+            }
+            if (id != null)
+            {
+                newsContext = newsContext.Where(i => i.News.CategoryId == id);
+
+            }
+            ViewBag.q = q;
+            ViewBag.sl = id;
+            //var pageNumber = page ?? 1;
+            //int pageSize = 6;
+            //var query1 = query.ToList().ToPagedList(pageNumber, pageSize);
+            //ViewBag.pg = pageSize;
             return View(await newsContext.ToListAsync());
         }
+        // GET: NewsLangs
+        //public async Task<IActionResult> Index()
+        //{
+        //    var newsContext = _context.NewsLang.Include(n => n.News);
+        //    return View(await newsContext.ToListAsync());
+        //}
 
-        // GET: NewsLangs/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //// GET: NewsLangs/Details/5
+        //public async Task<IActionResult> Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var newsLang = await _context.NewsLang
-                .Include(n => n.News)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (newsLang == null)
-            {
-                return NotFound();
-            }
+        //    var newsLang = await _context.NewsLang
+        //        .Include(n => n.News)
+        //        .FirstOrDefaultAsync(m => m.Id == id);
+        //    if (newsLang == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(newsLang);
-        }
+        //    return View(newsLang);
+        //}
 
         // GET: NewsLangs/Create
         public IActionResult Create()
         {
-            ViewData["NewsId"] = new SelectList(_context.News, "Id", "Id");
+            ViewData["NewsId"] = new SelectList(_context.News, "Id", "NewsTitle");
+            ViewData["LangName"] = new SelectList(_context.Langs, "Id", "Name");
             return View();
         }
-
-        // POST: NewsLangs/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,NewsId,LangId,NewsTitle,NewsContent,ViewCount,CreateDate,UpdateDate")] NewsLang newsLang)
+        public async Task<IActionResult> Create(NewsLang newsLang)
         {
             if (ModelState.IsValid)
             {
+                newsLang.CreateDate = DateTime.Now;
+                newsLang.ViewCount = 0;
                 _context.Add(newsLang);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["NewsId"] = new SelectList(_context.News, "Id", "Id", newsLang.NewsId);
+            ViewData["NewsId"] = new SelectList(_context.News, "Id", "NewsTitle", newsLang.NewsId);
+            ViewData["LangName"] = new SelectList(_context.Langs, "Id", "Name",newsLang.LangId);
             return View(newsLang);
         }
 
@@ -78,11 +122,13 @@ namespace Xeber.Controllers
             }
 
             var newsLang = await _context.NewsLang.FindAsync(id);
+            newsLang.UpdateDate = DateTime.Now;
             if (newsLang == null)
             {
                 return NotFound();
             }
-            ViewData["NewsId"] = new SelectList(_context.News, "Id", "Id", newsLang.NewsId);
+            ViewData["NewsId"] = new SelectList(_context.News, "Id", "NewsTitle", newsLang.NewsId);
+            ViewData["LangName"] = new SelectList(_context.Langs, "Id", "Name", newsLang.LangId);
             return View(newsLang);
         }
 
@@ -102,6 +148,8 @@ namespace Xeber.Controllers
             {
                 try
                 {
+                    newsLang.UpdateDate = DateTime.Now;
+                    newsLang.ViewCount = 0;
                     _context.Update(newsLang);
                     await _context.SaveChangesAsync();
                 }
@@ -118,7 +166,8 @@ namespace Xeber.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["NewsId"] = new SelectList(_context.News, "Id", "Id", newsLang.NewsId);
+            ViewData["NewsId"] = new SelectList(_context.News, "Id", "NewsTitle", newsLang.NewsId);
+            ViewData["LangName"] = new SelectList(_context.Langs, "Id", "Name", newsLang.LangId);
             return View(newsLang);
         }
 

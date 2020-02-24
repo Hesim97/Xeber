@@ -22,57 +22,113 @@ namespace Xeber.Controllers
 {
     public class NewsController : Controller
     {
+        //private INewsLangsRepository newsLangsRepository;
         private readonly IStringLocalizer<NewsController> _localizer;
         private INewsRepository repository;
         private NewsContext context;
-        public NewsController(IStringLocalizer<NewsController> localizer, INewsRepository _repository, NewsContext context)
+        public NewsController(/*INewsLangsRepository _newsLangsRepository,*/ IStringLocalizer<NewsController> localizer, INewsRepository _repository, NewsContext context)
         {
+            //newsLangsRepository = _newsLangsRepository;
             _localizer = localizer;
             repository = _repository;
             this.context = context;
         }
-        public IActionResult Index(string q, int? id, int? page)
+        public async Task<IActionResult> Index(string q,int? id)
         {
-
-            var query = repository.GetAll();
-            if (id != null)
+            var query = context.NewsLang.Include(n => n.News);
+            int langInt = 0;
+            var lang = Request.Cookies["lang"];
+            switch (lang)
             {
-                query = query.Where(i => i.CategoryId == id);
-
+                case "az":
+                    {
+                        langInt = (int)LangEnums.az;
+                        break;
+                    }
+                case "en":
+                    {
+                        langInt = (int)LangEnums.en;
+                        break;
+                    }
+                case "ru":
+                    {
+                        langInt = (int)LangEnums.ru;
+                        break;
+                    }
+                default:
+                    break;
             }
+
+            var newsContext = context.NewsLang.Include(n => n.News).Where(i => i.LangId == langInt);
             if (!string.IsNullOrEmpty(q))
             {
-                query = repository.GetAll().Where(i => EF.Functions.Like(i.NewsContent, "%" + q + "%") || EF.Functions.Like(i.NewsTitle, "%" + q + "%")
-                   && (i.IsActiv == true && i.Deleted == false));
+                newsContext = newsContext.Where(i => EF.Functions.Like(i.NewsContent, "%" + q + "%") || EF.Functions.Like(i.NewsTitle, "%" + q + "%")
+                   && (i.News.IsActiv == true && i.News.Deleted == false));
+            }
+            if (id != null)
+            {
+                newsContext = newsContext.Where(i => i.News.CategoryId == id);
+
             }
             ViewBag.q = q;
             ViewBag.sl = id;
-            //var pageNumber = page ?? 1;
-            //int pageSize = 6;
-            //var query1 = query.ToList().ToPagedList(pageNumber, pageSize);
-            //ViewBag.pg = pageSize;
-             return View(query);
-
+                //var pageNumber = page ?? 1;
+                //int pageSize = 6;
+                //var query1 = query.ToList().ToPagedList(pageNumber, pageSize);
+                //ViewBag.pg = pageSize;
+            return View(await newsContext.ToListAsync());
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Details(int Id, News news)
+        public async Task<IActionResult> Details(int Id,NewsLang newslang)
         {
-            var news1 = await repository.GetAll()
-                .Include(n => n.Category)
-               .FirstOrDefaultAsync(m => m.Id == Id);
+            int langInt = 0;
+            var lang = Request.Cookies["lang"];
+            switch (lang)
+            {
+                case "az":
+                    {
+                        langInt = (int)LangEnums.az;
+                        break;
+                    }
+                case "en":
+                    {
+                        langInt = (int)LangEnums.en;
+                        break;
+                    }
+                case "ru":
+                    {
+                        langInt = (int)LangEnums.ru;
+                        break;
+                    }
+                default:
+                    break;
+            }
+            if (Id == null)
+            {
+                return NotFound();
+            }
 
-            var query = await repository.GetAll().Where(x => x.Id == Id).SingleOrDefaultAsync();
+            var newsLang = await context.NewsLang
+                .Include(n =>n.News)
+                .FirstOrDefaultAsync(m => m.NewsId == Id && m.LangId==langInt);
+            var query = await context.NewsLang.Where(x => x.LangId == langInt && x.NewsId == Id).FirstOrDefaultAsync();
+            //var query = await context.NewsLang.Where(x => x.Id == Id && x.LangId == langInt).SingleOrDefaultAsync();
+            if (query == null)
+            {
+                return NotFound();
+            }
             query.ViewCount += 1;
-            news.ViewCount = query.ViewCount;
-            context.Update(news1);
-            ViewBag.category = query.Category.CatName;
-            ViewBag.CatId = query.CategoryId;
+            newslang.ViewCount = query.ViewCount;
+            context.Update(newsLang);         
+            if (newsLang == null)
+            {
+                return NotFound();
+            }
+            //ViewBag.category = query.News.Category.CatName;
+            //ViewBag.CatId = query.News.CategoryId;
             await context.SaveChangesAsync();
             return View(query);
-            
-        }
-
+        }    
         [HttpPost]
         public IActionResult SetLanguage(string culture, string returnUrl)
         {

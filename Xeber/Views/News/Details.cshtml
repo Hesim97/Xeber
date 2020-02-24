@@ -1,4 +1,4 @@
-﻿@model News
+﻿@model NewsLang
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer _localizer
 
@@ -6,13 +6,13 @@
     ViewData["Title"] = "Xəbər || Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div style="margin-top:120px" class="container w-100">
-    @Html.Partial("_BreadCrumbs")
+<div style="margin-top:10px" class="container w-100">
+    @*@Html.Partial("_BreadCrumbs")*@
     <div style="display:inline-block">
         <h2 style="width:750px;font-size:20px;font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif"> @Html.DisplayFor(modelItem => Model.NewsTitle)</h2>
-        <img style="border-radius:10%;width:100%;height:auto" src="~/img/@Model.NewsImg" asp-append-version="true" alt="...">
-        <p style="width:250px">@Html.Raw(Model.NewsContent)</p>
-        <p><b><time datetime="@Model.CreateDate.ToString("yyyy-MM-dd-HH-ss")">@Model.CreateDate.ToString("dd MMMM yyyy HH:ss")</time></b> tarixinde elave edildi</p>
+        <img style="border-radius:5%;width:100%;height:auto" src="~/img/@Model.News.NewsImg" asp-append-version="true" alt="...">
+        <p style="width:750px">@Html.Raw(Model.NewsContent)</p>
+        <p><b><time datetime="@Model.CreateDate.ToString("yyyy-MM-dd-HH-ss")">@Model.CreateDate.ToString("dd MMMM yyyy HH:ss")</time></b><mark>@_localizer[ "tarixində əlavə edildi"]</mark></p>
     </div>
 </div>
 
